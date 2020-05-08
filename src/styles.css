@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+
+.login-box {
+    border-radius: 10px;
+}
+
+.form-control.ng-dirty.ng-invalid.ng-touched {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, .25);
+}
