@@ -6,9 +6,11 @@ export interface IRegister {
 }
 
 export interface IUser {
+  id:string
   firstname:string,
-  lsatname:string,
+  lastname:string,
   email:string,
   password:string,
+  image:string
   role:string
 }

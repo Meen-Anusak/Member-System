@@ -1,0 +1,13 @@
+img {
+    width: 250px;
+    height: 250px;
+}
+
+[type="file"] {
+    display: none;
+}
+
+
+/* #file {
+    display: none;
+} */

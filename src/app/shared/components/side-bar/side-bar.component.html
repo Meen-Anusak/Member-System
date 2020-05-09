@@ -1,9 +1,11 @@
 <!-- Sidebar menu-->
 <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-<aside class="app-sidebar" *ngIf="User">
-    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg" alt="User Image">
+<aside class="app-sidebar">
+    <div class="app-sidebar__user">
+        <img *ngIf="User.image" class="app-sidebar__user-avatar" [src]="User.image" alt="User Image">
+        <img *ngIf="!User.image" class="app-sidebar__user-avatar" src="assets/images/user.png" alt="User Image">
         <div>
-            <p class="app-sidebar__user-name">{{User.firstname}} {{User.lsatname}}</p>
+            <p class="app-sidebar__user-name">{{User.firstname}} {{User.lastname}}</p>
             <p class="app-sidebar__user-designation">{{User.role}}</p>
         </div>
     </div>

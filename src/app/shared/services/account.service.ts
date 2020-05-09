@@ -9,10 +9,12 @@ export class AccountService {
 
   mockUser:IUser[] = [
     {
+      id:'1',
       firstname:'meen',
-      lsatname:'anusak',
+      lastname:'anusak',
       email:'meen@mail.com',
       password:'123456',
+      image:null,
       role:'admin'
     }
   ]
@@ -37,9 +39,22 @@ export class AccountService {
 
   getUserLogin(accessToken:string){
     return new Observable<IUser>(result =>{
-      const User = this.mockUser.find(user => user.email === accessToken);
+      const User = this.mockUser.find(user => user.id === accessToken);
       if(!User) return result.error({message:'AccessToken ไม่ถูกต้อง'})
       result.next(User)
+    })
+  }
+
+  updateProfile(accessToken:string,model:IUser){
+    return new Observable(result =>{
+      const user = this.mockUser.find(user => user.id === accessToken);
+      if(!user) return result.error({messgae:'ไม่พบผู้ใช้งานนี้ในระบบ'})
+      user.firstname = model.firstname;
+      user.lastname = model.lastname;
+      user.email = model.email;
+      user.image = model.image;
+      user.role = model .role;
+      result.next(user)
     })
   }
 }

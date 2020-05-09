@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
 
     this.account.onLogin(this.form.value).subscribe(
       (result) => {
-        this.authen.setAccesstoken(result.email)
+        this.authen.setAccesstoken(result.id)
         this.alert.notify('เข้าสูระบบสำเร็จ', 'success');
         this.router.navigate(['/',AppURL.Authen,AuthenURL.Dashboard])
       },
