@@ -3,7 +3,11 @@ import { AccountService } from 'src/app/shared/services/account.service';
 import { AuthenService } from 'src/app/shared/services/authen.service';
 import { IUser, ISearch, SearchUser, IUSERS } from 'src/app/model/user-model';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination/public_api';
-
+import { NotifyAlertService } from 'src/app/shared/services/notify-alert.service';
+import { Router } from '@angular/router';
+import { AppURL } from 'src/app/app.routing';
+import { AuthenURL } from '../../authen.routing';
+declare let swal;
 
 @Component({
   selector: 'app-user-list',
@@ -28,7 +32,9 @@ export class UserListComponent implements OnInit {
   constructor(
     private account : AccountService,
     private authen : AuthenService,
-    private changeDect : ChangeDetectorRef
+    private changeDect : ChangeDetectorRef,
+    private alert : NotifyAlertService,
+    private router : Router
   ) { this.searchType = this.searchTypeItem[0] }
 
   ngOnInit(): void {
@@ -40,8 +46,6 @@ export class UserListComponent implements OnInit {
   private getUsers(option?:SearchUser){
       this.account.getUser(this.authen.getAccessToeken(),option)
         .subscribe(result =>{
-          console.log(result.usertotal);
-
           this.Users = result
         })
   }
@@ -62,6 +66,45 @@ export class UserListComponent implements OnInit {
       startPage : page.page,
       limitPage : page.itemsPerPage
     })
+   }
+
+   onDeleteUser(id){
+    swal({
+      title: "ต้องการลบข้อมูลผู้ใช้งาน ?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        this.account.deleteUser(id).subscribe(result=>{
+          console.log(result)
+        },error =>{
+          this.alert.notify(error.message,'danger')
+        }
+        )
+        swal("ลบข้อมูลเรียบร้อย", {
+          icon: "success",
+
+        });
+        this.getUsers({
+          searchText : this.searchText,
+          searchType : this.searchType.key,
+          startPage : this.startPage,
+          limitPage : this.limitPage
+        })
+      } else {
+        swal("ลบข้อมูลไม่สำเร็จ");
+      }
+    });
+   }
+
+   onEditUser(id:any){
+    this.router.navigate([
+      AppURL.Authen,
+      AuthenURL.AddUser,
+      {id:id}
+    ])
    }
 
 }

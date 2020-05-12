@@ -101,6 +101,51 @@ export class AccountService {
     })
   }
 
+  createUser(model:IUser){
+    return new Observable(result =>{
+      if(this.mockUser.find(user => user.email === model.email))
+        return result.error({message:'อีเมลล์นี้มีผู้ใช้งานแล้ว'})
+      model.id = Math.random().toString();
+      const newUser = this.mockUser.push(model);
+      result.next(newUser);
+    })
+  }
+
+  deleteUser(id:any){
+    return new Observable(resulr =>{
+      const user = this.mockUser.findIndex(item => item.id === id)
+      if(!user) return resulr.error({message:'ไม่พบผู้ใช้งานในระบบ'})
+      resulr.next(this.mockUser.splice(user,1))
+    })
+  }
+
+  getUserById(id:any){
+    return new Observable<IUser>(res =>{
+      const user = this.mockUser.find(user => user.id === id)
+      if(!user) return res.error({message:'ไม่พบผู้ใช้งานนี้ในระบบ'})
+      return res.next(user)
+    })
+  }
+
+  editUser(id:any,model:IUser){
+    return new Observable(res=>{
+      const user = this.mockUser.find(item => item.id === id)
+      if(!user) return res.error({message:'ไม่พบผู้ใช้งานนี้ในระบบ'})
+      if(this.mockUser.find(item =>
+         item.email === model.email && model.email != user.email
+      )) return res.error({message:'อีเมลนี้มีผู้ใช้งานแล้ว'});
+
+
+        user.firstname = model.firstname
+        user.lastname = model.lastname,
+        user.email = model.email,
+        user.image = model.image,
+        user.role = model.role
+        res.next(user);
+      }
+    );
+  }
+
   private generateUser(){
     this.mockUser.splice(3)
     for (let i = 4; i <=300 ; i++) {

@@ -11,7 +11,10 @@ const routes: Routes = [
   {path:AuthenURL.Dashboard,component:DashboardComponent},
   {path:AuthenURL.Profile,component:ProfileComponent},
   {path:AuthenURL.UserList,component:UserListComponent},
-  {path:AuthenURL.AddUser,component:AddUserComponent},
+  {path:AuthenURL.AddUser,children:[
+    {path:'',component:AddUserComponent},
+    {path:':id',component:AddUserComponent},
+  ]},
   {path:'',redirectTo:AuthenURL.Dashboard,pathMatch:'full'}
 ];
 

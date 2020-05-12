@@ -1,18 +1,77 @@
 <app-content>
     <div class="app-title">
         <div>
-            <h1><i class="fa fa-user-plus"></i> Add User</h1>
-            <p>Start a beautiful journey here</p>
+            <h1 *ngIf="editUser === false"><i class="fa fa-user-plus"></i> Add User</h1>
+            <h1 *ngIf="editUser === true"><i class="fa fa-edit"></i> Edit User</h1>
         </div>
+
         <ul class="app-breadcrumb breadcrumb">
-            <li class="breadcrumb-item"><i class="fa fa-user-plus fa-lg"></i></li>
-            <li class="breadcrumb-item"><a href="#">add user</a></li>
+            <li *ngIf="editUser === false" class="breadcrumb-item"><i class="fa fa-user-plus fa-lg"></i></li>
+            <li *ngIf="editUser === false" class="breadcrumb-item"><a href="#">Add User</a></li>
+            <li *ngIf="editUser === true" class="breadcrumb-item"><i class="fa fa-edit fa-lg"></i></li>
+            <li *ngIf="editUser === true" class="breadcrumb-item"><a href="#">Edit User</a></li>
         </ul>
     </div>
     <div class="row">
         <div class="col-md-12">
             <div class="tile">
-                <div class="tile-body"></div>
+                <div class="tile-title-w-btn">
+                    <h3 *ngIf="editUser === false" class class="title"><i class="fa fa-user-plus"></i> Add User</h3>
+                    <h3 *ngIf="editUser === true" class class="title"><i class="fa fa-edit"></i> Edit User</h3>
+                </div>
+                <hr>
+                <div class="tile-body">
+                    <div class="col-md-10 offset-md-1">
+                        <form [formGroup]="form" (submit)="onSubmit()">
+                            <div class="row">
+                                <div class="col-md-6 text-center">
+                                    <img *ngIf="!form.value.image" src="assets/images/user.png" alt="" class="img-fluid">
+                                    <img *ngIf="form.value.image" [src]="form.value.image" alt="" class="img-fluid">
+                                    <div class="form-group mt-3">
+                                        <button class="btn btn-primary" type="button" (click)="fileimg.click()"><i
+                                                class="fa fa-image"> Seclect</i></button>
+                                        <input type="file" (change)="onConvertImage(fileimg)" #fileimg>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="">Firstname : </label>
+                                                <input type="text" class="form-control" formControlName="firstname" placeholder="firstname">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="">Lastnamename : </label>
+                                                <input type="text" class="form-control" formControlName="lastname" placeholder="lastname">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Password : </label>
+                                        <input type="password" class="form-control" formControlName="password" placeholder="password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Email : </label>
+                                        <input type="email" class="form-control" formControlName="email" placeholder="email">
+                                    </div>
+                                    <label for="">User Status : </label>
+                                    <select name="" id="" class="form-control" formControlName="role">
+                                        <option value="">Status...</option>
+                                        <option value="student">Student</option>
+                                        <option value="instructor">Instrucot</option>
+                                        <option value="admin">Admin</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group text-right">
+                                <button class="btn btn-primary"><i class="fa fa-save"></i>Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
