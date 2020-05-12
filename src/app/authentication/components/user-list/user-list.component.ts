@@ -15,7 +15,15 @@ declare let swal;
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
-  Users : IUSERS
+  Users : IUSERS;
+  userLogin : IUser;
+  role = {
+    admin:'admin',
+    instructor:'instructor',
+    student:'student',
+  }
+
+
   searchText : string = '';
   searchType : ISearch ;
   searchTypeItem = [
@@ -41,14 +49,18 @@ export class UserListComponent implements OnInit {
     this.getUsers({
       startPage : this.startPage,
       limitPage : this.limitPage
-    })
+    });
+    this.getUserlogin();
   }
+
+
   private getUsers(option?:SearchUser){
       this.account.getUser(this.authen.getAccessToeken(),option)
         .subscribe(result =>{
           this.Users = result
         })
   }
+
   onSearch(){
     this.getUsers({
       searchText : this.searchText,
@@ -105,6 +117,14 @@ export class UserListComponent implements OnInit {
       AuthenURL.AddUser,
       {id:id}
     ])
+   }
+
+
+   getUserlogin(){
+     this.account.getUserLogin(this.authen.getAccessToeken())
+      .subscribe(res=>{
+        this.userLogin = res
+      })
    }
 
 }

@@ -37,3 +37,13 @@ export interface SearchUser {
   startPage:number,
   limitPage:number
 }
+
+export interface IRole {
+  admin:'admin',
+  instructor:'instructor',
+  student:'student'
+}
+
+
+
+

@@ -4,8 +4,10 @@ import { AuthenURL } from 'src/app/authentication/authen.routing';
 import { AuthenService } from '../../services/authen.service';
 import { AccountService } from '../../services/account.service';
 import { NotifyAlertService } from '../../services/notify-alert.service';
-import { IUser } from 'src/app/model/user-model';
+import { IUser, IRole } from 'src/app/model/user-model';
 import { Router } from '@angular/router';
+
+declare const Toggle;
 
 @Component({
   selector: 'app-side-bar',
@@ -17,7 +19,12 @@ export class SideBarComponent implements OnInit {
   AppURL = AppURL;
   AuthenURL = AuthenURL;
 
-  User : IUser
+  User : IUser;
+  role = {
+    admin:'admin',
+    instructor:'instructor',
+    student:'student',
+  }
 
   constructor(
     private authen :AuthenService,
@@ -28,12 +35,15 @@ export class SideBarComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserlogin()
+    setTimeout(()=>{
+      Toggle.sidebar();
+    },500)
   }
 
  private getUserlogin(){
   this.account.getUserLogin(this.authen.getAccessToeken())
     .subscribe(result =>{
-      this.User = result
+      this.User = result;
     },
     error =>{
       this.alert.notify(error.message,'danger')

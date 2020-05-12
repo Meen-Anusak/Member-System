@@ -8,10 +8,11 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { AddUserComponent } from './components/add-user/add-user.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { ChangPasswordComponent } from './components/profile/chang-password/chang-password.component';
+import { ProductComponent } from './components/product/product.component';
 
 
 @NgModule({
-  declarations: [DashboardComponent, ProfileComponent, AddUserComponent, UserListComponent, ChangPasswordComponent],
+  declarations: [DashboardComponent, ProfileComponent, AddUserComponent, UserListComponent, ChangPasswordComponent, ProductComponent],
   imports: [
     CommonModule,
     AuthenticationRoutingModule,

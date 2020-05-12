@@ -65,11 +65,10 @@
                                     <td>{{item.role}}</td>
                                     <td>date</td>
                                     <td>
-                                        <div class="row">
+                                        <div class="row" *ngIf="userLogin.role === role.admin">
                                             <button type="button" class="btn btn-outline-warning btn-sm" (click)="onEditUser(item.id)"> &nbsp;<i class="fa fa-edit"></i></button>
                                             <span>&nbsp; &nbsp;</span>
                                             <button type="button" class="btn btn-outline-danger btn-sm" (click)="onDeleteUser(item.id)">&nbsp;<i class="fa fa-trash"></i></button>
-
                                         </div>
                                     </td>
                                 </tr>

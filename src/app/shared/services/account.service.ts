@@ -10,35 +10,35 @@ export class AccountService {
   mockUser:IUser[] = [
     {
       id:'1',
-      firstname:'meen',
-      lastname:'anusak',
-      email:'meen@mail.com',
+      firstname:'admin',
+      lastname:'admin',
+      email:'admin@mail.com',
       password:'123456',
       image:null,
       role:'admin'
     },
     {
       id:'2',
-      firstname:'member',
-      lastname:'member',
-      email:'member@mail.com',
+      firstname:'instructor',
+      lastname:'instructor',
+      email:'instructor@mail.com',
       password:'123456',
       image:null,
-      role:'member'
+      role:'instructor'
     },
     {
       id:'3',
-      firstname:'meen1',
-      lastname:'anusak1',
-      email:'meen1@mail.com',
+      firstname:'student',
+      lastname:'student',
+      email:'student@mail.com',
       password:'123456',
       image:null,
-      role:'admin'
+      role:'student'
     }
   ]
 
 
-  constructor() { this.generateUser() }
+  constructor() {  }
 
   onLogin(modelLogin){
     return new Observable<any>(result =>{
