@@ -41,12 +41,12 @@ export class LoginComponent implements OnInit {
 
     this.account.onLogin(this.form.value).subscribe(
       (result) => {
-        this.authen.setAccesstoken(result.id)
-        this.alert.notify('เข้าสูระบบสำเร็จ', 'success');
-        this.router.navigate(['/',AppURL.Authen,AuthenURL.Dashboard])
+        this.authen.setAccesstoken(result.acess_token)
+        this.alert.notify(result.message, 'success');
+        // this.router.navigate(['/',AppURL.Authen,AuthenURL.Dashboard])
       },
       (error) => {
-        this.alert.notify(error.message, 'danger');
+        this.alert.notify(error.error.error.message, 'danger');
       }
     );
   }

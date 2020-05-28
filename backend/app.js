@@ -8,8 +8,9 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
 const config = require('./configs/env');
+const error = require('./middleware/errorHandler');
 
-const cors = require('cors')
+const cors = require('cors');
 
 const app = express();
 
@@ -17,6 +18,7 @@ mongoose.connect(config.MONGO_DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
+    useCreateIndex: true
 })
 
 app.use(cors())
@@ -30,5 +32,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
 
+app.use(error);
 
 module.exports = app;

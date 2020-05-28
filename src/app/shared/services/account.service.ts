@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IRegister, IUser, IChanepass, SearchUser, IUSERS } from 'src/app/model/user-model';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -38,21 +39,15 @@ export class AccountService {
   ]
 
 
-  constructor() {  }
+  constructor( private http : HttpClient) {  }
 
   onLogin(modelLogin){
-    return new Observable<any>(result =>{
-     const userLogin = this.mockUser.find(item => item.email === modelLogin.email && item.password === modelLogin.password)
-     if(!userLogin) return result.error({message:'อีเมลผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง'})
-      result.next(userLogin)
-    })
+    return this.http.post<any>('http://localhost:3000/api/users/login',modelLogin)
   }
 
   onRegister(modelRegister:IRegister){
-    return new Observable(result=>{
-      console.log(modelRegister)
-      result.next();
-    })
+    return this.http.post<any>('http://localhost:3000/api/users/register',modelRegister)
+
   }
 
   getUserLogin(accessToken:string){
