@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const user_controller = require('../controllers/users_controller');
+const passport_JWT = require('../middleware/passport_JWT');
 const { body } = require('express-validator');
 
 /* GET users listing. */
-router.get('/', user_controller.user)
+router.get('/', [passport_JWT.isLogin], user_controller.user)
+router.get('/get', user_controller.user)
+
 
 router.post('/register', [
     body('firstname').not().isEmpty().withMessage('กรุณาป้อนชื่อ'),
@@ -14,5 +17,7 @@ router.post('/register', [
 ], user_controller.register)
 
 router.post('/login', user_controller.login)
+
+router.get('/profile', [passport_JWT.isLogin], user_controller.profile)
 
 module.exports = router;

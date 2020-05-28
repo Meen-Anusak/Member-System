@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
       (result) => {
         this.authen.setAccesstoken(result.acess_token)
         this.alert.notify(result.message, 'success');
-        // this.router.navigate(['/',AppURL.Authen,AuthenURL.Dashboard])
+        this.router.navigate(['/',AppURL.Authen,AuthenURL.Dashboard])
       },
       (error) => {
         this.alert.notify(error.error.error.message, 'danger');

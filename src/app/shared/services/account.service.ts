@@ -9,33 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class AccountService {
 
   mockUser:IUser[] = [
-    {
-      id:'1',
-      firstname:'admin',
-      lastname:'admin',
-      email:'admin@mail.com',
-      password:'123456',
-      image:null,
-      role:'admin'
-    },
-    {
-      id:'2',
-      firstname:'instructor',
-      lastname:'instructor',
-      email:'instructor@mail.com',
-      password:'123456',
-      image:null,
-      role:'instructor'
-    },
-    {
-      id:'3',
-      firstname:'student',
-      lastname:'student',
-      email:'student@mail.com',
-      password:'123456',
-      image:null,
-      role:'student'
-    }
+
   ]
 
 
@@ -51,11 +25,10 @@ export class AccountService {
   }
 
   getUserLogin(accessToken:string){
-    return new Observable<IUser>(result =>{
-      const User = this.mockUser.find(user => user.id === accessToken);
-      if(!User) return result.error({message:'AccessToken ไม่ถูกต้อง'})
-      result.next(User)
-    })
+    const Header ={
+      'Authorization': 'Bearer '+ accessToken
+    }
+    return this.http.get<any>('http://localhost:3000/api/users/profile',{headers:Header})
   }
 
   getUser(accessToken:string,option?:SearchUser){
@@ -141,18 +114,4 @@ export class AccountService {
     );
   }
 
-  private generateUser(){
-    this.mockUser.splice(3)
-    for (let i = 4; i <=300 ; i++) {
-      this.mockUser.push({
-        id:i.toString(),
-        firstname:`fname${i}`,
-        lastname:`lname${i}`,
-        email:`mail${i}@mail.com`,
-        password:`123456`,
-        image:null,
-        role:'member'
-      })
-    }
-  }
 }

@@ -20,6 +20,7 @@ export class SideBarComponent implements OnInit {
   AuthenURL = AuthenURL;
 
   User : IUser;
+
   role = {
     admin:'admin',
     instructor:'instructor',
@@ -46,7 +47,7 @@ export class SideBarComponent implements OnInit {
       this.User = result;
     },
     error =>{
-      this.alert.notify(error.message,'danger')
+      this.alert.notify(error.error.error.message,'danger')
       this.authen.clearAccesstoken()
       this.router.navigate(['/login'])
     })

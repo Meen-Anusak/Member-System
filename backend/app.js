@@ -3,6 +3,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const passport = require('passport');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -21,7 +22,9 @@ mongoose.connect(config.MONGO_DB, {
     useCreateIndex: true
 })
 
-app.use(cors())
+app.use(cors());
+
+app.use(passport.initialize());
 
 app.use(logger('dev'));
 app.use(express.json({ limit: '50mb' }));

@@ -32,7 +32,7 @@ exports.register = async(req, res, next) => {
         user.firstname = firstname;
         user.lastname = lastname;
         user.email = email;
-        user.image = config.DOMAIN + '/' + 'onpic.png'
+        user.image = config.DOMAIN + '/' + 'images/nopic.png'
         user.password = await user.encryptPassword(password);
 
         await user.save();
@@ -75,6 +75,14 @@ exports.login = async(req, res, next) => {
             token_type: 'Bearer',
         })
 
+    } catch (error) {
+        next(error)
+    }
+}
+
+exports.profile = async(req, res, next) => {
+    try {
+        res.status(200).json(req.user)
     } catch (error) {
         next(error)
     }
