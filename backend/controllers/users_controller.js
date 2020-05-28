@@ -32,6 +32,7 @@ exports.register = async(req, res, next) => {
         user.firstname = firstname;
         user.lastname = lastname;
         user.email = email;
+        user.image = config.DOMAIN + '/' + 'onpic.png'
         user.password = await user.encryptPassword(password);
 
         await user.save();

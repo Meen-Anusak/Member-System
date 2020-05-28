@@ -8,6 +8,7 @@ const usersSchema = new Schema({
     lastname: { type: String, required: true, trim: true },
     email: { type: String, required: true, trim: true, index: true },
     password: { type: String, required: true, trim: true },
+    image: { type: String },
     role: { type: String, default: 'student' }
 }, { timestamps: true });
 
