@@ -20,4 +20,6 @@ router.post('/login', user_controller.login)
 
 router.get('/profile', [passport_JWT.isLogin], user_controller.profile)
 
+router.put('/updateprofile', [passport_JWT.isLogin], user_controller.updateProfile)
+
 module.exports = router;

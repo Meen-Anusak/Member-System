@@ -47,16 +47,10 @@ export class AccountService {
   }
 
   updateProfile(accessToken:string,model:IUser){
-    return new Observable(result =>{
-      const user = this.mockUser.find(user => user.id === accessToken);
-      if(!user) return result.error({messgae:'ไม่พบผู้ใช้งานนี้ในระบบ'})
-      user.firstname = model.firstname;
-      user.lastname = model.lastname;
-      user.email = model.email;
-      user.image = model.image;
-      user.role = model .role;
-      result.next(user)
-    })
+    const Header ={
+      'Authorization': 'Bearer '+ accessToken
+    }
+    return this.http.put<any>('http://localhost:3000/api/users/updateprofile',model,{headers:Header})
   }
 
   changePassword(accessToken:string,model:IChanepass){

@@ -5,6 +5,9 @@ import { AuthenService } from 'src/app/shared/services/authen.service';
 import { IUser } from 'src/app/model/user-model';
 import { NotifyAlertService } from 'src/app/shared/services/notify-alert.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { Router } from '@angular/router';
+import { AppURL } from 'src/app/app.routing';
+import { AuthenURL } from '../../authen.routing';
 
 @Component({
   selector: 'app-profile',
@@ -20,7 +23,8 @@ export class ProfileComponent implements OnInit {
     private account : AccountService,
     private authen : AuthenService,
     private alert : NotifyAlertService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private router : Router,
     ) {}
 
   ngOnInit(): void {
@@ -45,11 +49,11 @@ export class ProfileComponent implements OnInit {
     if(this.form.invalid) return this.alert.notify('ข้อมูลไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง','warning');
     this.account.updateProfile(this.authen.getAccessToeken(),this.form.value)
       .subscribe(result =>{
-        console.log(result)
-        this.alert.notify('แก้ไขข้อมูลเรียบร้อย','success')
+        this.alert.notify(result.message,'success');
+        this.router.navigate(['/',AppURL.Authen,AuthenURL.Dashboard]);
       },
       error =>{
-        this.alert.notify(error.messgae,'danger')
+        this.alert.notify(error.error.error.message,'danger')
       })
   }
 

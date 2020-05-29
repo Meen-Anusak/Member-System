@@ -87,3 +87,20 @@ exports.profile = async(req, res, next) => {
         next(error)
     }
 }
+
+exports.updateProfile = async(req, res, next) => {
+    try {
+        const { firstname, lastname, image } = req.body;
+
+        let user = await User.findByIdAndUpdate(req.user.id);
+        user.firstname = firstname
+        user.lastname = lastname;
+
+        await user.save();
+
+        res.status(201).json({ message: 'แก้ไขข้อมูลเรียบร้อย' });
+
+    } catch (error) {
+        next(error)
+    }
+}
