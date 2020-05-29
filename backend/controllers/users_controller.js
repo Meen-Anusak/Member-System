@@ -2,6 +2,8 @@ const User = require('../model/user_model');
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const config = require('../configs/env');
+const save_image = require('../configs/base64_image')
+
 
 exports.user = async(req, res, next) => {
     const user = await User.find();
@@ -95,7 +97,7 @@ exports.updateProfile = async(req, res, next) => {
         let user = await User.findByIdAndUpdate(req.user.id);
         user.firstname = firstname
         user.lastname = lastname;
-
+        user.image = await save_image.saveImageToDisk(image)
         await user.save();
 
         res.status(201).json({ message: 'แก้ไขข้อมูลเรียบร้อย' });
