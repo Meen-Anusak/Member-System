@@ -8,8 +8,15 @@ const save_image = require('../configs/base64_image')
 exports.user = async(req, res, next) => {
 
     try {
-        const user = await User.find();
-        res.status(200).json({ user, usertotal: user.length })
+
+        let startPage = req.query.startPage;
+        let limitPage = req.query.limitPage;
+
+
+        let users = await User.find()
+        let user = await users.slice(startPage, limitPage)
+
+        res.status(200).json({ user, usertotal: users.length })
     } catch (error) {
         next(error)
     }

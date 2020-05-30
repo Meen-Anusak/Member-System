@@ -35,8 +35,8 @@ export class AccountService {
   getUser(accessToken:string,option?:SearchUser){
     // return new Observable<IUSERS>(result =>{
     //   let users = this.mockUser;
-    //   const startItem = (option.startPage - 1) * option.limitPage;
-    //   const endItem = option.startPage * option.limitPage;
+      let startItem = (option.startPage - 1) * option.limitPage;
+      let endItem = option.startPage * option.limitPage;
 
     //  if(option.searchText && option.searchType){
     //    users = this.mockUser.filter(item => item[option.searchType]
@@ -45,7 +45,8 @@ export class AccountService {
     //  }
     //   result.next({user:users.slice(startItem,endItem),usertotal:users.length})
     // })
-    return this.http.get<IUSERS>('http://localhost:3000/api/users/get')
+
+    return this.http.get<IUSERS>(`http://localhost:3000/api/users/get/?startPage=${startItem}&limitPage=${endItem}`)
 
   }
 

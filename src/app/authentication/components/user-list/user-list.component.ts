@@ -34,7 +34,7 @@ export class UserListComponent implements OnInit {
   ]
 
   startPage:number = 1;
-  limitPage:number = 15;
+  limitPage:number = 5;
 
 
   constructor(
