@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AppURL } from 'src/app/app.routing';
 import { AuthenURL } from '../../authen.routing';
 import { IUser } from 'src/app/model/user-model';
+import { AuthenService } from 'src/app/shared/services/authen.service';
 
 @Component({
   selector: 'app-add-user',
@@ -23,7 +24,8 @@ export class AddUserComponent implements OnInit {
     private builder : FormBuilder,
     private account : AccountService,
     private router  : Router,
-    private activatedRoute : ActivatedRoute
+    private activatedRoute : ActivatedRoute,
+    private authen : AuthenService
     ) {
       this.activatedRoute.params.forEach(param => this.userId = param.id)
      }
@@ -66,19 +68,21 @@ export class AddUserComponent implements OnInit {
     if(!this.userId){
       this.account.createUser(this.form.value).subscribe(
         result =>{
-          this.alert.notify('บันทึกข้อมูลทำเสร็จ','success');
+          this.alert.notify(result.message,'success');
           this.router.navigate(['/',AppURL.Authen,AuthenURL.UserList])
         },error =>{
-          this.alert.notify(error.message,'warning')
+          this.alert.notify(error.error.error.message,'warning')
         }
       );
     }else{
-      this.account.editUser(this.userId,this.form.value)
+      this.account.editUser(this.userId,this.form.value,this.authen.getAccessToeken())
         .subscribe(res=>{
-          this.alert.notify('แก้ไขข้อมูลเรียบร้อย','success');
+          this.alert.notify(res.message,'success');
           this.router.navigate(['/',AppURL.Authen,AuthenURL.UserList])
         },error =>{
-          this.alert.notify(error.message,'danger')
+          this.alert.notify(error.error.error.message,'danger')
+          console.log(error);
+
         });
     }
 
@@ -86,7 +90,7 @@ export class AddUserComponent implements OnInit {
 
   private editForm(){
     if(!this.userId) return;
-    this.account.getUserById(this.userId).subscribe(res =>{
+    this.account.getUserById(this.userId,this.authen.getAccessToeken()).subscribe(res =>{
       this.editUser = true
       this.form.controls['password'].disable()
       this.form.controls['firstname'].setValue(res.firstname)

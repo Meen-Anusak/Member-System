@@ -6,13 +6,14 @@ export interface IRegister {
 }
 
 export interface IUser {
-  id:string
+  _id:string
   firstname:string,
   lastname:string,
   email:string,
   password:string,
   image:string,
-  role:string
+  role:string,
+  createdAt:Date,
 }
 
 export interface IUSERS {

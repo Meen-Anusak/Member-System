@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IRegister, IUser, IChanepass, SearchUser, IUSERS } from 'src/app/model/user-model';
 import { HttpClient } from '@angular/common/http';
+declare const $;
 
 @Injectable({
   providedIn: 'root'
@@ -32,18 +33,20 @@ export class AccountService {
   }
 
   getUser(accessToken:string,option?:SearchUser){
-    return new Observable<IUSERS>(result =>{
-      let users = this.mockUser;
-      const startItem = (option.startPage - 1) * option.limitPage;
-      const endItem = option.startPage * option.limitPage;
+    // return new Observable<IUSERS>(result =>{
+    //   let users = this.mockUser;
+    //   const startItem = (option.startPage - 1) * option.limitPage;
+    //   const endItem = option.startPage * option.limitPage;
 
-     if(option.searchText && option.searchType){
-       users = this.mockUser.filter(item => item[option.searchType]
-        .toString().toLowerCase()
-        .indexOf(option.searchText.toString().toLowerCase()) >= 0);
-     }
-      result.next({user:users.slice(startItem,endItem),usertotal:users.length})
-    })
+    //  if(option.searchText && option.searchType){
+    //    users = this.mockUser.filter(item => item[option.searchType]
+    //     .toString().toLowerCase()
+    //     .indexOf(option.searchText.toString().toLowerCase()) >= 0);
+    //  }
+    //   result.next({user:users.slice(startItem,endItem),usertotal:users.length})
+    // })
+    return this.http.get<IUSERS>('http://localhost:3000/api/users/get')
+
   }
 
   updateProfile(accessToken:string,model:IUser){
@@ -54,58 +57,39 @@ export class AccountService {
   }
 
   changePassword(accessToken:string,model:IChanepass){
-    return new Observable(result=>{
-      const user = this.mockUser.find(user => user.id === accessToken);
-      if(!user) return result.error({messgae:'ไม่พบผู้ใช้งานนี้ในระบบ'});
-      if(user.password !==  model.old_pass) return result.error({message:'รหัสผ่านเดิมไม่ถูกต้อง'})
-      user.password = model.new_pass;
-      result.next(user);
-    })
+    const Header ={
+      'Authorization': 'Bearer '+ accessToken
+    }
+    return this.http.post<any>('http://localhost:3000/api/users/changepassword',model,{headers:Header})
   }
 
   createUser(model:IUser){
-    return new Observable(result =>{
-      if(this.mockUser.find(user => user.email === model.email))
-        return result.error({message:'อีเมลล์นี้มีผู้ใช้งานแล้ว'})
-      model.id = Math.random().toString();
-      const newUser = this.mockUser.push(model);
-      result.next(newUser);
-    })
+    return this.http.post<any>('http://localhost:3000/api/users/register',model)
   }
 
-  deleteUser(id:any){
-    return new Observable(resulr =>{
-      const user = this.mockUser.findIndex(item => item.id === id)
-      if(!user) return resulr.error({message:'ไม่พบผู้ใช้งานในระบบ'})
-      resulr.next(this.mockUser.splice(user,1))
-    })
+  deleteUser(id:any,accessToken:string){
+    const Header ={
+      'Authorization': 'Bearer '+ accessToken
+    }
+    return this.http.delete<any>('http://localhost:3000/api/users/user/'+id,{headers:Header})
   }
 
-  getUserById(id:any){
-    return new Observable<IUser>(res =>{
-      const user = this.mockUser.find(user => user.id === id)
-      if(!user) return res.error({message:'ไม่พบผู้ใช้งานนี้ในระบบ'})
-      return res.next(user)
-    })
+  getUserById(id:any,accessToken:string){
+    console.log(id);
+
+    const Header ={
+      'Authorization': 'Bearer '+ accessToken
+    }
+    return this.http.get<any>('http://localhost:3000/api/users/user/'+id , {headers:Header})
   }
 
-  editUser(id:any,model:IUser){
-    return new Observable(res=>{
-      const user = this.mockUser.find(item => item.id === id)
-      if(!user) return res.error({message:'ไม่พบผู้ใช้งานนี้ในระบบ'})
-      if(this.mockUser.find(item =>
-         item.email === model.email && model.email != user.email
-      )) return res.error({message:'อีเมลนี้มีผู้ใช้งานแล้ว'});
+  editUser(id:any,model:IUser,accessToken:string){
+    console.log(model);
 
+    const Header ={
+      'Authorization': 'Bearer '+ accessToken
+    }
+    return this.http.put<any>('http://localhost:3000/api/users/updateuser/'+id,model,{headers:Header})
 
-        user.firstname = model.firstname
-        user.lastname = model.lastname,
-        user.email = model.email,
-        user.image = model.image,
-        user.role = model.role
-        res.next(user);
-      }
-    );
   }
-
 }

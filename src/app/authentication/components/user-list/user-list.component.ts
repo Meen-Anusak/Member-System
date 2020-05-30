@@ -89,10 +89,11 @@ export class UserListComponent implements OnInit {
     })
     .then((willDelete) => {
       if (willDelete) {
-        this.account.deleteUser(id).subscribe(result=>{
-          console.log(result)
+        this.account.deleteUser(id,this.authen.getAccessToeken()).subscribe(result=>{
+          this.router.navigate(['/',AppURL.Authen,AuthenURL.UserList])
+
         },error =>{
-          this.alert.notify(error.message,'danger')
+          this.alert.notify(error.error.error.message,'danger')
         }
         )
         swal("ลบข้อมูลเรียบร้อย", {

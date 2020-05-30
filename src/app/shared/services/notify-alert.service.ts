@@ -15,7 +15,7 @@ export class NotifyAlertService {
       icon: 'glyphicon glyphicon-warning-sign',
       title: 'SYSTEM : ',
       message: message,
-      url: 'https://github.com/mouse0270/bootstrap-notify',
+      url: '',
       target: '_blank'
     },{
       // settings

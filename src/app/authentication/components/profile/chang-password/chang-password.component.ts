@@ -38,10 +38,10 @@ export class ChangPasswordComponent implements OnInit {
     if(this.form.invalid) return this.alert.notify('กรุณาป้อนข้อมูลให้ถูกต้อง','warning')
     this.account.changePassword(this.authen.getAccessToeken(),this.form.value)
       .subscribe(result =>{
-        this.alert.notify('เปลี่ยนรหัสผ่านเรียบร้อย')
+        this.alert.notify(result.message,'success')
         this.modalRef.hide()
       },error =>{
-        this.alert.notify(error.message,'danger')
+        this.alert.notify(error.error.error.message,'danger')
       })
   }
 

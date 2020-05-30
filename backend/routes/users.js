@@ -14,12 +14,22 @@ router.post('/register', [
     body('lastname').not().isEmpty().withMessage('กรุณาป้อนนามสกุล'),
     body('email').not().isEmpty().withMessage('กรุณาป้อนอีเมล์').isEmail().withMessage('รูปแบบอีเมลล์ไม่ถูกต้อง'),
     body('password').not().isEmpty().isLength({ min: 6 }).withMessage('พาสเวิด 6 ตัวอักษรขึ้นไป'),
-], user_controller.register)
+], user_controller.register);
 
-router.post('/login', user_controller.login)
+router.post('/login', user_controller.login);
 
-router.get('/profile', [passport_JWT.isLogin], user_controller.profile)
+router.get('/profile', [passport_JWT.isLogin], user_controller.profile);
 
-router.put('/updateprofile', [passport_JWT.isLogin], user_controller.updateProfile)
+router.put('/updateprofile', [passport_JWT.isLogin], user_controller.updateProfile);
+
+router.put('/updateuser/:id', [passport_JWT.isLogin], user_controller.updateUser);
+
+router.post('/changepassword', [passport_JWT.isLogin], user_controller.changePassword);
+
+router.get('/user/:id', [passport_JWT.isLogin], user_controller.getUserById);
+
+router.delete('/user/:id', [passport_JWT.isLogin], user_controller.deleteUser);
+
+
 
 module.exports = router;
